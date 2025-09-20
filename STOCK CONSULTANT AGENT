@@ -1,0 +1,53 @@
+include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+// Mock function to fetch stock price (simulates Pathway fetch)
+double fetch_stock_price(const char* symbol) {
+    // Mock data for demonstration
+    if (strcmp(symbol, "AAPL") == 0) return 180.0;
+    if (strcmp(symbol, "GOOG") == 0) return 2700.0;
+    if (strcmp(symbol, "TSLA") == 0) return 700.0;
+    return 100.0; // default mock price
+}
+
+// Simple advice generator: buy if price < 150, sell if price > 200, else hold
+const char* generate_advice(double price) {
+    if (price < 150.0) return "BUY";
+    if (price > 200.0) return "SELL";
+    return "HOLD";
+}
+
+#define MAX_PORTFOLIO 10
+#define SYMBOL_LEN 8
+
+typedef struct {
+    char symbol[SYMBOL_LEN];
+    int shares;
+} Stock;
+
+int main() {
+    int n, i;
+    Stock portfolio[MAX_PORTFOLIO];
+
+    printf("Enter number of stocks in your portfolio (max %d): ", MAX_PORTFOLIO);
+    scanf("%d", &n);
+    if (n > MAX_PORTFOLIO) n = MAX_PORTFOLIO;
+
+    for (i = 0; i < n; ++i) {
+        printf("Enter stock symbol #%d: ", i + 1);
+        scanf("%s", portfolio[i].symbol);
+        printf("Enter number of shares for %s: ", portfolio[i].symbol);
+        scanf("%d", &portfolio[i].shares);
+    }
+
+    printf("\n--- Stock Consultant Advice ---\n");
+    for (i = 0; i < n; ++i) {
+        double price = fetch_stock_price(portfolio[i].symbol);
+        const char* advice = generate_advice(price);
+        printf("Stock: %s | Shares: %d | Price: $%.2f | Advice: %s\n",
+               portfolio[i].symbol, portfolio[i].shares, price, advice);
+    }
+
+    return 0;
+}
