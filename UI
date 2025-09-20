@@ -1,0 +1,12 @@
+include <stdio.h>
+#include "ui.h"
+
+int main() {
+    // Initialize the user interface
+    init_ui();
+
+    // Handle user input for stock portfolio management
+    manage_portfolio();
+
+    return 0;
+}
